@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dice Roll</title>
+    <style>
+      .dice {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        background-color: #ccc;
+        border: 1px solid #000;
+        margin: 10px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 24px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+      }
+      #winner {
+        margin-top: 20px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      #member-1 {
+        margin-left: 42%;
+      }
+      h1 {
+        background: rgb(2, 0, 36);
+        background: -moz-linear-gradient(
+          90deg,
+          rgba(2, 0, 36, 1) 0%,
+          rgba(9, 9, 121, 1) 47%,
+          rgba(0, 212, 255, 1) 100%
+        );
+        background: -webkit-linear-gradient(
+          90deg,
+          rgba(2, 0, 36, 1) 0%,
+          rgba(9, 9, 121, 1) 47%,
+          rgba(0, 212, 255, 1) 100%
+        );
+        background: linear-gradient(
+          90deg,
+          rgba(2, 0, 36, 1) 0%,
+          rgba(9, 9, 121, 1) 47%,
+          rgba(0, 212, 255, 1) 100%
+        );
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#00d4ff",GradientType=1);
+        margin-left: 40%;
+        text-align: center;
+        color: rgb(208, 231, 231);
+        margin-right: 40%;
+        width: 250px;
+        margin-top: 250px;
+      }
+      #roll {
+        margin-left: 40%;
+        background: rgb(34, 193, 195);
+        background: -moz-linear-gradient(
+          0deg,
+          rgba(34, 193, 195, 1) 42%,
+          rgba(88, 253, 45, 1) 100%
+        );
+        background: -webkit-linear-gradient(
+          0deg,
+          rgba(34, 193, 195, 1) 42%,
+          rgba(88, 253, 45, 1) 100%
+        );
+        background: linear-gradient(
+          0deg,
+          rgba(34, 193, 195, 1) 42%,
+          rgba(88, 253, 45, 1) 100%
+        );
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#22c1c3",endColorstr="#58fd2d",GradientType=1);
+        width: 250px;
+        height: 45px;
+        border-radius: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Throw Dice</h1>
+    <div id="member-1" class="dice"></div>
+    <div id="member-2" class="dice"></div>
+    <div id="member-3" class="dice"></div>
+    <br />
+    <button id="roll" onclick="roll()">ROLL THE DICE</button>
+    <div id="winner"></div>
+
+    <script>
+      function rollDice() {
+        return Math.floor(Math.random() * 6) + 1;
+      }
+
+      function roll() {
+        var member1 = document.getElementById("member-1");
+        var member2 = document.getElementById("member-2");
+        var member3 = document.getElementById("member-3");
+        var winnerDiv = document.getElementById("winner");
+
+        var count = 0;
+       var interval = setInterval(function () {
+          count++;
+          if (count > 10) {
+            clearInterval(interval);
+
+            var score1 = rollDice();
+            var score2 = rollDice();
+            var score3 = rollDice();
+
+            member1.textContent = score1;
+            member2.textContent = score2;
+            member3.textContent = score3;
+
+            var maxScore = Math.max(score1, score2, score3);
+            var minScore = Math.min(score1, score2, score3);
+
+            if (score1 === score2 && score2 === score3) {
+              member1.style.backgroundColor = "blue";
+              member2.style.backgroundColor = "blue";
+              member3.style.backgroundColor = "blue";
+              winnerDiv.textContent = "It's a draw!";
+            } else {
+              if (score1 === maxScore) {
+                member1.style.backgroundColor = "green";
+                member2.style.backgroundColor =
+                  score2 === minScore ? "red" : "yellow";
+                member3.style.backgroundColor =
+                  score3 === minScore ? "red" : "yellow";
+                winnerDiv.textContent = "Member A wins!";
+              } else if (score2 === maxScore) {
+                member1.style.backgroundColor =
+                  score1 === minScore ? "red" : "yellow";
+                member2.style.backgroundColor = "green";
+                member3.style.backgroundColor =
+                  score3 === minScore ? "red" : "yellow";
+                winnerDiv.textContent = "Member B wins!";
+              } else {
+                member1.style.backgroundColor =
+                  score1 === minScore ? "red" : "yellow";
+                member2.style.backgroundColor =
+                  score2 === minScore ? "red" : "yellow";
+                member3.style.backgroundColor = "green";
+                winnerDiv.textContent = "Member C wins!";
+              }
+            }
+          } else {
+            member1.textContent = Math.floor(Math.random() * 6) + 1;
+            member2.textContent = Math.floor(Math.random() * 6) + 1;
+            member3.textContent = Math.floor(Math.random() * 6) + 1;
+          }
+        }, 100);
+      }
+    </script>
+  </body>
+</html>
